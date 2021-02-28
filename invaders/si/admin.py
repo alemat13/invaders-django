@@ -1,3 +1,6 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import Invader, City
+
+admin.site.register(Invader)
+admin.site.register(City)
