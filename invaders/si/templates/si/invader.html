@@ -1,0 +1,6 @@
+<h1>{{ invader.name }}</h1>
+<ul>
+	<li><b>Status: </b>{{ invader.status }}</li>
+	<li><b>Points: </b>{{ invader.points }}</li>
+	<li><b>City: </b><a href="{% url 'city' invader.city.id %}">{{ invader.city.name }}</a></li>
+</ul>

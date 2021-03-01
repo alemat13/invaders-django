@@ -1,0 +1,20 @@
+<h1>{{ city.name }}</h1>
+
+<div>
+	{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+	<form action="{% url 'add_invader' city.id %}" method="post">
+		{% csrf_token %}
+		<input type="text" name="name" value="{{ city.prefix }}" />
+		<input type="submit" value="Add to {{ city.name }}!">
+	</form>
+</div>
+
+{% if city.invader_set.all %}
+	<ul>
+	{% for invader in city.invader_set.all|dictsort:"name" %}
+	<li><a href="{% url 'invader_detail' invader.id %}"/>{{ invader.name }}</a></li>
+	{% endfor %}
+	</ul>
+{% else %}
+	<p>Aucun Invader dans cette ville ?!</p>
+{% endif %}
