@@ -9,6 +9,10 @@ class City(models.Model):
     def __str__(self):
         return '{}, {}'.format(self.name, self.country)
 
+    def create_invaders_until(self, max_number):
+        for i in range(1, max_number):
+            self.invader_set.create(name=self.prefix+str(i).zfill(2))
+
 
 class Invader(models.Model):
     STATUS = [
@@ -30,16 +34,16 @@ class Invader(models.Model):
     ]
 
     name = models.CharField(max_length=8, unique=True)
-    points = models.PositiveIntegerField(choices=POINTS)
-    status = models.PositiveIntegerField(choices=STATUS, default=5)
-    cp = models.CharField(max_length=5, required=False)
+    points = models.PositiveIntegerField(choices=POINTS, blank=True, null=True)
+    status = models.PositiveIntegerField(choices=STATUS, default=5, blank=True, null=True)
+    cp = models.CharField(max_length=5, blank=True)
     city = models.ForeignKey(City, on_delete=models.CASCADE)
-    comment = models.CharField(max_length=255, required=False)
-    localisation = models.TextField(max_length=511, required=False)
-    gmaps_url = models.URLField(max_length=200, required=False)
-    latitude = models.DecimalField(max_digits=11, decimal_places=8, required=False)
-    longitute = models.DecimalField(max_digits=11, decimal_places=8, required=False)
-    flashed_by = models.ManyToManyField(User)
+    comment = models.CharField(max_length=255, blank=True)
+    localisation = models.TextField(max_length=511, blank=True)
+    gmaps_url = models.URLField(max_length=200, blank=True)
+    latitude = models.DecimalField(max_digits=11, decimal_places=8, blank=True, null=True)
+    longitute = models.DecimalField(max_digits=11, decimal_places=8, blank=True, null=True)
+    flashed_by = models.ManyToManyField(User, blank=True)
 
     def is_flashable(self):
         return self.status > 1
