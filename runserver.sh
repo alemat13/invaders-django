@@ -1,5 +1,6 @@
 #!/bin/bash
 
-cd ~/dev/invaders
-source env/bin/activate
-invaders/manage.py runserver
+# cd ~/dev/invaders
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+source $DIR/env/bin/activate
+$DIR/invaders/manage.py runserver
