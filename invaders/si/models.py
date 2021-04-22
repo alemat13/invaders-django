@@ -1,8 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.template.defaultfilters import slugify
 
 class City(models.Model):
     name = models.CharField(max_length=200)
+    slug = models.SlugField(max_length=200, blank=True, null=True)
     country = models.CharField(max_length=200)
     prefix = models.CharField(max_length=4)
 
@@ -12,6 +14,11 @@ class City(models.Model):
     def create_invaders_until(self, max_number):
         for i in range(1, max_number):
             self.invader_set.create(name=self.prefix+str(i).zfill(2))
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        return super(City, self).save(*args, **kwargs)
+
 
 
 class Invader(models.Model):
@@ -33,7 +40,8 @@ class Invader(models.Model):
         (100, '100 pts')
     ]
 
-    name = models.CharField(max_length=8, unique=True)
+    name = models.CharField(max_length=8, unique=True, null=False)
+    slug = models.SlugField(max_length=8, blank=True, null=True)
     points = models.PositiveIntegerField(choices=POINTS, blank=True, null=True)
     status = models.PositiveIntegerField(choices=STATUS, default=5, blank=True, null=True)
     cp = models.CharField(max_length=5, blank=True)
@@ -52,5 +60,9 @@ class Invader(models.Model):
         return '{} ({} {}, statut {})'.format(self.name, self.cp, self.city.name, self.status)
     
     def get_instagram_link(self):
-        base_url = 'https://www.instagram.com/explore/tags/' + self.name.lower() + '/'
+        return 'https://www.instagram.com/explore/tags/' + self.slug + '/'
 
+    def save(self, *args, **kwargs):
+        self.name = self.name.upper().strip()
+        self.slug = slugify(self.name)
+        return super(Invader, self).save(*args, **kwargs)

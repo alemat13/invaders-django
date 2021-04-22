@@ -1,6 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Invader - {{ invader.city.name }} - {{ invader.name }}{% endblock %}
+
+{% block content %}
+
+<div id="breadcrumbs">
+	<a href="{% url 'index' %}">Home</a>&nbsp;&gt;&nbsp;
+	<a href="{% url 'city_detail' invader.city.slug %}">{{ invader.city.name }}</a>&nbsp;&gt;&nbsp;
+	<a href="{% url 'invader_detail' invader.slug %}">{{ invader.name }}</a>
+</div>
 <h1>{{ invader.name }}</h1>
 <ul>
 	<li><b>Status: </b>{{ invader.status }}</li>
 	<li><b>Points: </b>{{ invader.points }}</li>
-	<li><b>City: </b><a href="{% url 'city' invader.city.id %}">{{ invader.city.name }}</a></li>
+	<li><b>Status: </b>{{ invader.status }}</li>
+	<li><b>Zip code: </b>{{ invader.cp }}</li>
+	<li><b>City: </b><a href="{% url 'city_detail' invader.city.slug %}">{{ invader.city.name }}</a></li>
+	<li><b>Instagram: </b><a href="{{ invader.get_instagram_link }}">{{ invader.slug }}</a></li>
+	<li><b>Comment: </b>{{ invader.comment }}</li>
+	<li><b>Location: </b>{{ invader.localisation }}</li>
+	<li><b>Google Maps: </b><a href="{{ invader.gmaps_url }}">Go</a></li>
+	<li><b>Latitude: </b>{{ invader.latitude }}</li>
+	<li><b>Longitude: </b>{{ invader.longitude }}</li>
 </ul>
+{% endblock %}
