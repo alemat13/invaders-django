@@ -5,13 +5,13 @@
 {% block content %}
 
 <div id="breadcrumbs">
-    <a href="{% url 'index' %}">Home</a>
+    <a href="{% url 'city-list' %}">All cities</a>
 </div>
 <h1>Cities</h1>
 
 <div>
     {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-    <form action="{% url 'add_city' %}" method="post">
+    <form action="{% url 'city-add' %}" method="post">
         {% csrf_token %}
         <input type="text" name="name" value="Enter city name" />
         <input type="text" name="prefix" value="Enter prefix" />
@@ -22,7 +22,7 @@
 {% if city_list %}
 <ul>
     {% for c in city_list %}
-    <li><a href="{% url 'city_detail' c.slug %}"/>{{ c.name }}</a></li>
+    <li><a href="{% url 'city-detail' c.slug %}"/>{{ c.name }}</a></li>
     {% endfor %}
 </ul>
 {% else %}

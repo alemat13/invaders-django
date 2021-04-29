@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
+from django.urls import reverse
 
 class City(models.Model):
     name = models.CharField(max_length=200)
@@ -18,8 +19,6 @@ class City(models.Model):
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
         return super(City, self).save(*args, **kwargs)
-
-
 
 class Invader(models.Model):
     STATUS = [
@@ -44,21 +43,24 @@ class Invader(models.Model):
     slug = models.SlugField(max_length=8, blank=True, null=True)
     points = models.PositiveIntegerField(choices=POINTS, blank=True, null=True)
     status = models.PositiveIntegerField(choices=STATUS, default=5, blank=True, null=True)
-    cp = models.CharField(max_length=5, blank=True)
+    cp = models.CharField(max_length=5, blank=True, null=True)
     city = models.ForeignKey(City, on_delete=models.CASCADE)
-    comment = models.CharField(max_length=255, blank=True)
-    localisation = models.TextField(max_length=511, blank=True)
-    gmaps_url = models.URLField(max_length=200, blank=True)
+    comment = models.CharField(max_length=255, blank=True, null=True)
+    localisation = models.TextField(max_length=511, blank=True, null=True)
+    gmaps_url = models.URLField(max_length=200, blank=True, null=True)
     latitude = models.DecimalField(max_digits=11, decimal_places=8, blank=True, null=True)
-    longitute = models.DecimalField(max_digits=11, decimal_places=8, blank=True, null=True)
+    longitude = models.DecimalField(max_digits=11, decimal_places=8, blank=True, null=True)
     flashed_by = models.ManyToManyField(User, blank=True)
+
+    def get_absolute_url(self):
+        return reverse('invader-detail', kwargs={'pk': self.pk})
 
     def is_flashable(self):
         return self.status > 1
 
     def __str__(self):
         return '{} ({} {}, statut {})'.format(self.name, self.cp, self.city.name, self.status)
-    
+
     def get_instagram_link(self):
         return 'https://www.instagram.com/explore/tags/' + self.slug + '/'
 

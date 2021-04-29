@@ -5,22 +5,26 @@
 {% block content %}
 
 <div id="breadcrumbs">
-	<a href="{% url 'index' %}">Home</a>&nbsp;&gt;&nbsp;
-	<a href="{% url 'city_detail' invader.city.slug %}">{{ invader.city.name }}</a>&nbsp;&gt;&nbsp;
-	<a href="{% url 'invader_detail' invader.slug %}">{{ invader.name }}</a>
+	<a href="{% url 'city-list' %}">Home</a>&nbsp;&gt;&nbsp;
+	<a href="{% url 'city-detail' invader.city.slug %}">{{ invader.city.name }}</a>&nbsp;&gt;&nbsp;
+	<a href="{% url 'invader-detail' invader.slug %}">{{ invader.name }}</a>
 </div>
-<h1>{{ invader.name }}</h1>
-<ul>
-	<li><b>Status: </b>{{ invader.status }}</li>
-	<li><b>Points: </b>{{ invader.points }}</li>
-	<li><b>Status: </b>{{ invader.status }}</li>
-	<li><b>Zip code: </b>{{ invader.cp }}</li>
-	<li><b>City: </b><a href="{% url 'city_detail' invader.city.slug %}">{{ invader.city.name }}</a></li>
-	<li><b>Instagram: </b><a href="{{ invader.get_instagram_link }}">{{ invader.slug }}</a></li>
-	<li><b>Comment: </b>{{ invader.comment }}</li>
-	<li><b>Location: </b>{{ invader.localisation }}</li>
-	<li><b>Google Maps: </b><a href="{{ invader.gmaps_url }}">Go</a></li>
-	<li><b>Latitude: </b>{{ invader.latitude }}</li>
-	<li><b>Longitude: </b>{{ invader.longitude }}</li>
-</ul>
+<div>
+	<h1>{{ invader.name }}</h1>
+	<a href="{% url 'invader-update' invader.slug %}">Update</a>
+	<ul>
+		<li><b>Status: </b>{{ invader.status }}</li>
+		<li><b>Points: </b>{{ invader.points }}</li>
+		<li><b>Status: </b>{{ invader.status }}</li>
+		<li><b>Zip code: </b>{{ invader.cp }}</li>
+		<li><b>City: </b><a href="{% url 'city-detail' invader.city.slug %}">{{ invader.city.name }}</a></li>
+		<li><b>Instagram: </b><a href="{{ invader.get_instagram_link }}">{{ invader.slug }}</a></li>
+		<li><b>Comment: </b>{{ invader.comment }}</li>
+		<li><b>Location: </b>{{ invader.localisation }}</li>
+		<li><b>Google Maps: </b><a href="{{ invader.gmaps_url }}">Go</a></li>
+		<li><b>Latitude: </b>{{ invader.latitude }}</li>
+		<li><b>Longitude: </b>{{ invader.longitude }}</li>
+	</ul>
+</div>
+
 {% endblock %}
